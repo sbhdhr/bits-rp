@@ -1,6 +1,6 @@
 
 name1 = 'manoj';
-f = strcat('trainedmodels/id_name_sign/model_',name1,'.mat');
+f = strcat('trainedmodels/id_name/model_',name1,'.mat');
 display(strcat('Loading ',f));
 load(f);
 model_manoj = model;
@@ -9,7 +9,7 @@ clear model
 
 
 name2 = 'soumak';
-f = strcat('trainedmodels/id_name_sign/model_',name2,'.mat');
+f = strcat('trainedmodels/id_name/model_',name2,'.mat');
 display(strcat('Loading ',f));
 load(f);
 model_soumak = model;
@@ -22,7 +22,7 @@ clear model
 % % create test image matrix
 testName = 'soumak';
 count = 0;
-s = 15;
+s = 13;
 e =18;
 len = e-s;
 for i = s:e
@@ -32,8 +32,6 @@ for i = s:e
     t = [t; x1];
     x1 = vec2img(strcat('names/',baseFileName),[515 70]);
     t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
-    t = [t; x1];
     o1 = sim(model_manoj,t);
     if(o1(1)>o1(2))
         p1=1;
@@ -55,7 +53,7 @@ end
 
 testName = 'manoj';
 count = 0;
-s = 2;
+s = 12;
 e =14;
 len = len+e-s;
 for i = s:e
@@ -65,8 +63,6 @@ for i = s:e
     t = [t; x1];
     x1 = vec2img(strcat('names/',baseFileName),[515 70]);
     t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
-    t = [t; x1];
     o1 = sim(model_manoj,t);
     if(o1(1)>o1(2))
         p1=1;

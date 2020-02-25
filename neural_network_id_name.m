@@ -1,22 +1,24 @@
 clear
 X = [];
 Y = [];
-name = 'soumak';
+name = 'manoj';
+col1 = 'ids';
+sf1 = [330 70];
+col2 = 'names';
+sf2 = [515 70];
 %==========================================================================
-% getting positive samples for ids,name,sign
+% getting positive samples for col
 
-samples = 15;
+samples = 12;
 
 
 for i = 1:samples
     t=[];
     baseFileName = strcat(name,'_true/',int2str(i),'.jpg');
-    x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+    x1 = vec2img(strcat(col1,'/',baseFileName),sf1);
     t = [t; x1];
-    x1 = vec2img(strcat('names/',baseFileName),[515 70]);
+    x1 = vec2img(strcat(col2,'/',baseFileName),sf2);
     t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
-    t = [t; x1];
     X = [X t];
 end
 
@@ -32,19 +34,17 @@ fprintf('\nAdded %d positive training values...\n',samples);
 
 
 % %==========================================================================
-% % getting negative samples for ids
+% % getting negative samples for cols
 
-samples = 13;
+samples = 10;
 
 for i = 1:samples
     t=[];
     baseFileName = strcat(name,'_false/',int2str(i),'.jpg');
-    x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+    x1 = vec2img(strcat(col1,'/',baseFileName),sf1);
     t = [t; x1];
-    x1 = vec2img(strcat('names/',baseFileName),[515 70]);
+    x1 = vec2img(strcat(col2,'/',baseFileName),sf2);
     t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
-    t = [t; x1];
     X = [X t];
 end
 
@@ -55,63 +55,61 @@ end
 
 
 fprintf('\nAdded %d negative training values...\n',samples);
-clearvars -except X Y name
+
 %==========================================================================
 
 
 % %==========================================================================
 % % training model
 
-saveModel = 0;
+saveModel = 1;
 
 fprintf('\nTraining network...\n');
-prnet = newpr(X,Y,75);
+prnet = newpr(X,Y,35);
 trainedprnet = train(prnet,X,Y);
 
 
 if(saveModel==1)
     var = strcat('model_',name);
     S.('model') =trainedprnet;
-    save(strcat('trainedmodels/id_name_sign/',var,'.mat'),'-struct','S')  
+    save(strcat('trainedmodels/id_name/',var,'.mat'),'-struct','S')  
     fprintf('\nSaving trained network with name %s...\n',var);
 end
 
 
-% %==========================================================================
+%==========================================================================
+
+clear X Y
 
 
 % %==========================================================================
 % % test images
-init = 16;
-samples = 3;
+
+init = 13;
+samples = 2;
 fprintf('\nPrediction for positive values:');
 for i = init:init+samples-1
     t=[];
     baseFileName = strcat(name,'_true/',int2str(i),'.jpg');
-    x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+    x1 = vec2img(strcat(col1,'/',baseFileName),sf1);
     t = [t; x1];
-    x1 = vec2img(strcat('names/',baseFileName),[515 70]);
-    t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
+    x1 = vec2img(strcat(col2,'/',baseFileName),sf2);
     t = [t; x1];
     display(sim(trainedprnet,t));
 end
 
-init = 14;
+init = 11;
 samples = 2;
 fprintf('\nPrediction for negative values:');
 for i = init:init+samples-1
     t=[];
     baseFileName = strcat(name,'_false/',int2str(i),'.jpg');
-    x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+    x1 = vec2img(strcat(col1,'/',baseFileName),sf1);
     t = [t; x1];
-    x1 = vec2img(strcat('names/',baseFileName),[515 70]);
-    t = [t ;x1];
-    x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
+    x1 = vec2img(strcat(col2,'/',baseFileName),sf2);
     t = [t; x1];
     display(sim(trainedprnet,t));
 end
-
 
 
 clear
