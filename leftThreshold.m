@@ -1,6 +1,6 @@
 function l  = leftThreshold( )
 
-    l = 288;
+    l = 284;
 
 end
 

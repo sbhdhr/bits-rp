@@ -1,5 +1,5 @@
 function t = upperThreshold()
 
-    t = 1185;
+    t = 1212;
 
 end
