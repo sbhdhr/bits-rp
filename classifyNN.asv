@@ -1,0 +1,138 @@
+
+
+f = 'trainedmodels/model_classifier.mat';
+display(strcat('Loading ',f));
+load(f);
+classifier = model;
+
+clear model
+
+
+% %==========================================================================
+% % test images
+
+count = 0;
+tot_samples = 0; 
+
+
+
+
+init = 13;
+samples = 2;
+name = 'soumak';
+
+tot_samples = tot_samples+ samples;
+fprintf('\nPrediction with soumak''s data::');
+for i = init:init+samples-1
+    t=[];
+    baseFileName = strcat(name,'_true/',int2str(i),'.jpg');
+    x1 = img2vec(strcat('ids/',baseFileName),[330 70]);
+    t = [t; x1];
+    x1 = img2vec(strcat('names/',baseFileName),[515 70]);
+    t = [t ;x1];
+    x1 = img2vec(strcat('signs/',baseFileName),[300 72]);
+    t = [t; x1];
+    out = sim(trainedprnet,t);
+    if(out(1)>out(2))
+    end
+end
+
+init = 12;
+samples = 2;
+name = 'manoj';
+tot_samples = tot_samples+ samples;
+fprintf('\nPrediction with manoj''s data::');
+for i = init:init+samples-1
+    t=[];
+    baseFileName = strcat(name,'_true/',int2str(i),'.jpg');
+    x1 = img2vec(strcat('ids/',baseFileName),[330 70]);
+    t = [t; x1];
+    x1 = img2vec(strcat('names/',baseFileName),[515 70]);
+    t = [t ;x1];
+    x1 = img2vec(strcat('signs/',baseFileName),[300 72]);
+    t = [t; x1];
+    display(sim(trainedprnet,t));
+end
+
+
+
+clear
+
+
+
+
+% %==========================================================================
+% 
+% 
+% % %==========================================================================
+% % % create test image matrix
+% testName = 'soumak';
+% count = 0;
+% s = 15;
+% e =18;
+% len = e-s;
+% for i = s:e
+%     t=[];
+%     baseFileName = strcat(testName,'_true/',int2str(i),'.jpg');
+%     x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+%     t = [t; x1];
+%     x1 = vec2img(strcat('names/',baseFileName),[515 70]);
+%     t = [t ;x1];
+%     x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
+%     t = [t; x1];
+%     o1 = sim(model_manoj,t);
+%     if(o1(1)>o1(2))
+%         p1=1;
+%     else
+%         p1=0;
+%     end
+%     o2 = sim(model_soumak,t);
+%     if(o2(1)>o2(2))
+%         p2=1;
+%     else
+%         p2=0;
+%     end
+%     if(p1==0 && p2==1)
+%         count = count+1;
+%     end
+%    
+% end
+% % fprintf('\nPrediction accuracy for Soumak : %0.2f \n',count*100/s);
+% 
+% testName = 'manoj';
+% count = 0;
+% s = 2;
+% e =14;
+% len = len+e-s;
+% for i = s:e
+%     t=[];
+%     baseFileName = strcat(testName,'_true/',int2str(i),'.jpg');
+%     x1 = vec2img(strcat('ids/',baseFileName),[330 70]);
+%     t = [t; x1];
+%     x1 = vec2img(strcat('names/',baseFileName),[515 70]);
+%     t = [t ;x1];
+%     x1 = vec2img(strcat('signs/',baseFileName),[300 72]);
+%     t = [t; x1];
+%     o1 = sim(model_manoj,t);
+%     if(o1(1)>o1(2))
+%         p1=1;
+%     else
+%         p1=0;
+%     end
+%     o2 = sim(model_soumak,t);
+%     if(o2(1)>o2(2))
+%         p2=1;
+%     else
+%         p2=0;
+%     end
+%     if(p1==1 && p2==0)
+%         count = count+1;
+%     end
+% end
+% fprintf('\nPrediction accuracy (%d/%d): %0.2f \n',count,len,count*100/len);
+% 
+% 
+% clear 
+% 
+% % %==========================================================================
+
